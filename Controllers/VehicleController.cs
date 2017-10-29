@@ -5,6 +5,7 @@ using hwapp.Controllers.Resources;
 using hwapp.Models;
 using hwapp.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace hwapp.Controllers
 {
@@ -19,21 +20,20 @@ namespace hwapp.Controllers
             this.mapper = mapper;
 
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
         {
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-            // var model = await context.Models.FindAsync(vehicleResource.ModelId);
-            // if(model == null) {
+            var vehicle = await context.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
+            // if(vehicle == null) {
             //     ModelState.AddModelError("ModelId", "Invalid model ID");
             //     return BadRequest(ModelState);
             // }
 
-            var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
-            this.context.Add(vehicle);
             await this.context.SaveChangesAsync();
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
