@@ -21,7 +21,7 @@ namespace hwapp.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState);
@@ -34,11 +34,11 @@ namespace hwapp.Controllers
             if (vehicle == null)
                 return NotFound();
 
-            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+            mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
             await this.context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
+            var result = mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
             return Ok(result);
         }
         [HttpDelete("{id}")]
@@ -56,7 +56,12 @@ namespace hwapp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
-            var vehicle = await context.Vehicles.Include(v => v.Features).SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await context.Vehicles
+                .Include(v => v.Features)
+                    .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                    .ThenInclude(vm => vm.Make)
+                .SingleOrDefaultAsync(v => v.Id == id);
             if (vehicle == null)
                 return NotFound();
             
