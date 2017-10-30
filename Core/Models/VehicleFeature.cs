@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace hwapp.Models
+namespace hwapp.Core.Models
 {
     [Table("VehicleFeatures")]
     public class VehicleFeature

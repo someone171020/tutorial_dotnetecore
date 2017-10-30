@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace hwapp.Models
+namespace hwapp.Core.Models
 {
     public class Feature
     {

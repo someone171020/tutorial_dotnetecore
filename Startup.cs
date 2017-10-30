@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using hwapp.Persistence;
 using Microsoft.EntityFrameworkCore;
+using hwapp.Core;
 
 namespace hwapp
 {
@@ -25,6 +26,8 @@ namespace hwapp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddMvc();
             services.AddDbContext<HelloDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));

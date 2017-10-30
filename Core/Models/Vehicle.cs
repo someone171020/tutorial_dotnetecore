@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace hwapp.Models
+namespace hwapp.Core.Models
 {
     [Table("Vehicles")]
     public class Vehicle

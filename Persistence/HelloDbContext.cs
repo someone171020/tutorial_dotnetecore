@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using hwapp.Models;
+using hwapp.Core.Models;
 
 namespace hwapp.Persistence
 {

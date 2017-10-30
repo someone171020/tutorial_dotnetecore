@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace hwapp.Models
+namespace hwapp.Core.Models
 {
     [Table("Models")]
     public class Model
