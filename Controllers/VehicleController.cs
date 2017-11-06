@@ -27,6 +27,7 @@ namespace hwapp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
+            throw new Exception();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
